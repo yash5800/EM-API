@@ -2,7 +2,7 @@ import requests
 from datetime import datetime
 import socket
 
-API_URL = "http://192.168.192.201:5000/receive-location"  # Replace with your actual server IP and port
+API_URL = "https://em-api-1sby.onrender.com/receive-location"  # Replace with your actual server IP and port
 
 def get_ip_location():
     try:
