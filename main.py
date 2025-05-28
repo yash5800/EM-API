@@ -1,6 +1,7 @@
 import requests
-from datetime import datetime
+from datetime import datetime, timezone
 import socket
+import json
 
 API_URL = "https://em-api-1sby.onrender.com/receive-location"  # Replace with your actual server IP and port
 
@@ -26,7 +27,7 @@ def get_ip_location():
 def send_location_to_api(location):
     payload = {
         "device_name": socket.gethostname(),
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "location": {
             "lat": location["lat"],
             "lon": location["lon"]
@@ -37,12 +38,17 @@ def send_location_to_api(location):
             "country": location.get("country")
         }
     }
+
+    print("Sending payload to API:")
+    print(json.dumps(payload, indent=2))  # Optional: remove after debugging
+
     try:
         response = requests.post(API_URL, json=payload)
         if response.status_code == 200:
             print("Location sent successfully.")
         else:
-            print("Failed to send location, status code:", response.status_code)
+            print(f"Failed to send location, status code: {response.status_code}")
+            print("Response content:", response.text)  # Print error details
     except Exception as e:
         print("Error sending location:", e)
 

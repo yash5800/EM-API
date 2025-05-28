@@ -9,27 +9,27 @@ client = MongoClient("mongodb+srv://ffjokerking580:<db_password>@cluster0.jdngqv
 db = client["my_database"]
 collection = db["EM"]
 
+
 @app.route('/', methods=['GET'])
 def main():
     return jsonify({'msg': 'API Working'})
-
+  
+  
 @app.route('/receive-location', methods=['POST'])
 def receive_location():
     data = request.json
-
-    # Create a document to insert
-    document = {
-        "device_name": data.get('device_name', 'unknown'),
-        "timestamp": data.get('timestamp', str(datetime.utcnow())),
-        "location": data.get('location', {}),
-        "extra_info": data.get('extra_info', {}),
-        "received_at": datetime.now(timezone.utc)  # server-side timestamp
+    
+    doc = {
+        "device_name": data['device_name'],
+        "timestamp": data['timestamp'],
+        "location": data['location'],
+        "extra_info": data['extra_info'],
     }
-
-    # Insert into MongoDB
-    collection.insert_one(document)
+    
+    collection.insert_one(doc)
 
     return {"status": "received"}, 200
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
