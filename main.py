@@ -1,6 +1,5 @@
 import requests
 from datetime import datetime, timezone
-import socket
 import json
 
 API_URL = "https://em-api-1sby.onrender.com/receive-location"  # Replace with your actual server IP and port
@@ -26,7 +25,7 @@ def get_ip_location():
 
 def send_location_to_api(location):
     payload = {
-        "device_name": socket.gethostname(),
+        "device_name": 'unknown',
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "location": {
             "lat": location["lat"],
