@@ -1,11 +1,12 @@
 from flask import Flask, request, jsonify
 from datetime import datetime,timezone
 from pymongo import MongoClient
+import os
 
 app = Flask(__name__)
 
 # MongoDB connection
-client = MongoClient("mongodb+srv://ffjokerking580:<db_password>@cluster0.jdngqvd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")  # Replace with your MongoDB URI if remote
+client = MongoClient(os.getenv('mongodb'))  # Replace with your MongoDB URI if remote
 db = client["my_database"]
 collection = db["EM"]
 
